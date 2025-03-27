@@ -23,7 +23,6 @@ proxyPort = int(args.port)
 try:
   # Create a server socket
   # ~~~~ INSERT CODE ~~~~
-  serverPort = 12000
   serverSocket = socket(AF_INET,SOCK_STREAM)
   # ~~~~ END CODE INSERT ~~~~
   print ('Created socket')
@@ -34,7 +33,7 @@ except:
 try:
   # Bind the server socket to a host and port
   # ~~~~ INSERT CODE ~~~~
-  serverSocket.bind(('',serverPort))
+  serverSocket.bind((proxyHost,proxyPort))
   # ~~~~ END CODE INSERT ~~~~
   print ('Port is bound')
 except:
@@ -175,10 +174,12 @@ while True:
 
       # Get the response from the origin server
       # ~~~~ INSERT CODE ~~~~
+      message_bytes_origin = originServerSocket.recv(1024)
       # ~~~~ END CODE INSERT ~~~~
 
       # Send the response to the client
       # ~~~~ INSERT CODE ~~~~
+      clientSocket.send(message_bytes_origin)
       # ~~~~ END CODE INSERT ~~~~
 
       # Create a new file in the cache for the requested file.
@@ -190,6 +191,7 @@ while True:
 
       # Save origin server response in the cache file
       # ~~~~ INSERT CODE ~~~~
+      cacheFile = message_bytes_origin
       # ~~~~ END CODE INSERT ~~~~
       cacheFile.close()
       print ('cache file closed')
